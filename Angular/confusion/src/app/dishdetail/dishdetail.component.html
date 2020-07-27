@@ -13,7 +13,7 @@
           <h3 *ngIf="dish">{{dish.name | uppercase}}</h3>
         </mat-card-title>
       </mat-card-header>
-      <img mat-card-image src="{{dish.image}}" alt="{{dish.name}}">
+      <img mat-card-image src="{{BaseURL + dish.image}}" alt="{{dish.name}}">
       <mat-card-content>
         <p>{{dish.description}}</p>
       </mat-card-content>
@@ -42,7 +42,34 @@
           <span>-- {{comment.author}} {{comment.date | date}}</span>
         </p>
       </mat-list-item>
+      <mat-list-item *ngIf="commentForm.valid">
+        <h4 matLine>{{commentForm.value.comment}}</h4>
+        <p matLine>{{commentForm.value.rating}} Stars</p>
+        <p matLine>
+          <span>-- {{commentForm.value.author}} {{commentForm.value.date | date}}</span>
+        </p> 
+      </mat-list-item>
     </mat-list>
+    <form novalidate [formGroup]="commentForm" #cform="ngForm" (ngSubmit)='onSubmit()'>
+      <p>
+        <mat-form-field class="full-width">
+          <input matInput formControlName = "author" placeholder="Name" type="text" required>
+          <mat-error *ngIf="formErrors.author">
+            {{ formErrors.author }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+        <mat-slider formControlName="rating" min=1 max=5 thumbLabel tickInterval=1 value=5></mat-slider>
+      <p>
+        <mat-form-field class="full-width">
+          <textarea matInput formControlName="comment" placeholder="Your Comment" rows="12"></textarea>
+          <mat-error *ngIf="formErrors.comment">
+            {{ formErrors.comment }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
+    </form>
   </div>
 
   <div fxFlex [hidden]="dish">
