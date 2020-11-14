@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-const whitelist = ['http://localhost:3000', 'https://localhost:3443', 'http://ASUSTUF:3001'];
+const whitelist = ['http://localhost:3000', 'https://localhost:3443', 'http://localhost:3001', 'http://localhost:3006'];
 var corsOptionsDelegate = (req, callback) => {
     var corsOptions;
 
@@ -12,7 +12,7 @@ var corsOptionsDelegate = (req, callback) => {
     else {
         corsOptions = { origin: false };
     }
-    callback(null, corsOptions);
+    return callback(null, corsOptions);
 };
 
 exports.cors = cors();
